@@ -25,15 +25,18 @@ public class Vistas extends javax.swing.JFrame {
     /**
      * Creates new form Vistas
      */
-    ArchivosController control;
+    private ArchivosController control;
     private Object root;
+    
 
     public Vistas() {
         initComponents();
-        control = new ArchivosController();
+        this.control = new ArchivosController();
         Tree.setModel(control.getArbol());
 
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -52,7 +55,7 @@ public class Vistas extends javax.swing.JFrame {
         btnEliminar = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jGuardar = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,8 +84,13 @@ public class Vistas extends javax.swing.JFrame {
 
         jMenu1.setText("jMenu1");
 
-        jMenuItem1.setText("jMenuItem1");
-        jMenu1.add(jMenuItem1);
+        jGuardar.setText("Guardar");
+        jGuardar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jGuardarActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jGuardar);
 
         menuBar.add(jMenu1);
 
@@ -154,6 +162,12 @@ public class Vistas extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEditarActionPerformed
 
+    private void jGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGuardarActionPerformed
+        // TODO add your handling code here:
+        control.guardarArbol();
+
+    }//GEN-LAST:event_jGuardarActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -192,8 +206,8 @@ public class Vistas extends javax.swing.JFrame {
     private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JMenuItem jGuardar;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuBar menuBar;
