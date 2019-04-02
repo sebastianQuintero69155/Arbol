@@ -96,6 +96,29 @@ public class ArchivosController {
 
         }
     }
+    
+    
+        public void eliminarNodo(String nodo, DefaultMutableTreeNode eliminar) {
+
+        this.nodoHijo = new DefaultMutableTreeNode(nodo);
+        DefaultMutableTreeNode nodoEliminar = dictionary.get(nodo);
+        dictionary.remove(nodo, nodoEliminar);
+//        this.arbol.removeNodeFromParent(eliminar);
+        this.arbol.removeNodeFromParent(eliminar);
+        
+
+    }
+
+    public void modificar(String old, DefaultMutableTreeNode newN, String newNo) {
+        DefaultMutableTreeNode oldNode = dictionary.get(old);
+        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(newNo);
+        dictionary.remove(old, oldNode);
+        dictionary.put(newNo, newNode);
+        oldNode.setUserObject(newNo);
+        this.arbol.nodeChanged(oldNode);
+
+    }
+    
 
 //    public String contarHijos(DefaultMutableTreeNode padre, String cadena) {
 //        int cont = 0;

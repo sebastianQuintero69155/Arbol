@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 
 /**
  *
@@ -27,7 +28,6 @@ public class Vistas extends javax.swing.JFrame {
      */
     private ArchivosController control;
     private Object root;
-    
 
     public Vistas() {
         initComponents();
@@ -35,8 +35,6 @@ public class Vistas extends javax.swing.JFrame {
         Tree.setModel(control.getArbol());
 
     }
-    
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -81,6 +79,11 @@ public class Vistas extends javax.swing.JFrame {
         });
 
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("jMenu1");
 
@@ -160,6 +163,14 @@ public class Vistas extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
+         String newNodo = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre");
+        TreePath currentSelection = Tree.getSelectionPath();
+        if (currentSelection != null) {
+            DefaultMutableTreeNode node = (DefaultMutableTreeNode) currentSelection.getLastPathComponent();
+            control.modificar(String.valueOf(root), node, newNodo);
+        }
+        
+        
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void jGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGuardarActionPerformed
@@ -167,6 +178,18 @@ public class Vistas extends javax.swing.JFrame {
         control.guardarArbol();
 
     }//GEN-LAST:event_jGuardarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        DefaultMutableTreeNode parentNode = null;
+        TreePath currentSelection = Tree.getSelectionPath();
+        //FORMA CORRECTA DE ELIMINAR UN NODO
+        if (currentSelection != null) {
+            parentNode = (DefaultMutableTreeNode) currentSelection.getLastPathComponent();
+            control.eliminarNodo(String.valueOf(root), parentNode);
+        }
+
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
