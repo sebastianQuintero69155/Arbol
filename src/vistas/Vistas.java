@@ -9,11 +9,13 @@ import arhivos.ArchivosController;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.util.HashMap;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
@@ -28,6 +30,7 @@ public class Vistas extends javax.swing.JFrame {
      */
     private ArchivosController control;
     private Object root;
+    private DefaultTreeCellRenderer render;
 
     public Vistas() {
         initComponents();
@@ -163,19 +166,19 @@ public class Vistas extends javax.swing.JFrame {
 
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
-         String newNodo = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre");
+        String newNodo = JOptionPane.showInputDialog(this, "Ingrese el nuevo nombre");
         TreePath currentSelection = Tree.getSelectionPath();
         if (currentSelection != null) {
             DefaultMutableTreeNode node = (DefaultMutableTreeNode) currentSelection.getLastPathComponent();
             control.modificar(String.valueOf(root), node, newNodo);
         }
-        
-        
+
+
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void jGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jGuardarActionPerformed
         // TODO add your handling code here:
-        control.guardarArbol();
+        control.guardar();
 
     }//GEN-LAST:event_jGuardarActionPerformed
 

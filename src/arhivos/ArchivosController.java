@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.WindowConstants;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
@@ -71,41 +72,14 @@ public class ArchivosController {
             }
         }
     }
-
-    public void guardarArbol() {
-        String cadena = "";
-        try {
-            JFileChooser mFile = new JFileChooser();
-            mFile.showOpenDialog(null);
-            //abrimos el archivo seleccionado
-            File archGrahp = mFile.getSelectedFile();
-            FileWriter write = new FileWriter(archGrahp, false);//false para sobrescribir el archivo
-            Set<String> key = this.dictionary.keySet();
-            DefaultMutableTreeNode hijo;
-            for (String hijos : key) {
-                hijo = dictionary.get(hijos);
-                cadena += arbol.getRoot().toString() + "/";
-                cadena += hijo.getUserObject().toString() + ";";
-                write.write(cadena);
-                cadena = "";
-
-            }
-
-            write.close();
-        } catch (Exception err) {
-
-        }
-    }
     
-    
-        public void eliminarNodo(String nodo, DefaultMutableTreeNode eliminar) {
+    public void eliminarNodo(String nodo, DefaultMutableTreeNode eliminar) {
 
         this.nodoHijo = new DefaultMutableTreeNode(nodo);
         DefaultMutableTreeNode nodoEliminar = dictionary.get(nodo);
         dictionary.remove(nodo, nodoEliminar);
 //        this.arbol.removeNodeFromParent(eliminar);
         this.arbol.removeNodeFromParent(eliminar);
-        
 
     }
 
@@ -118,18 +92,40 @@ public class ArchivosController {
         this.arbol.nodeChanged(oldNode);
 
     }
-    
 
-//    public String contarHijos(DefaultMutableTreeNode padre, String cadena) {
-//        int cont = 0;
-//        if (padre.getChildCount() > 0) {
-//            cadena += padre.getUserObject() + "/";
-//            cadena += contarHijos((DefaultMutableTreeNode) padre.getChildAt(cont), cadena);
-//            cont++;
-//        } else {
-//            cadena += padre.getUserObject() + ";";
-//            cont++;
-//        }
-//        return cadena;
-//    }
+    public void guardar() {
+        String cadena = "";
+        cadena = contar(dictionary.get("C:"), cadena, 0);
+        System.out.println(cadena);
+
+        try {
+            JFileChooser mFile = new JFileChooser();
+            mFile.showOpenDialog(null);
+            //abrimos el archivo seleccionado
+            File archGrahp = mFile.getSelectedFile();
+            FileWriter write = new FileWriter(archGrahp, false);//false para sobrescribir el archivo
+            write.write(cadena);
+            write.close();
+        } catch (Exception err) {
+            err.printStackTrace();
+        }
+    }
+
+    public String contar(DefaultMutableTreeNode nodo, String cadena, int pos) {
+        pos = 0;
+        if (nodo.getChildCount() > 0) {
+            int cantidadHijos = nodo.getChildCount();
+            cadena += nodo.getUserObject() + ";";
+            while (cantidadHijos > 0) {
+
+                cadena = contar((DefaultMutableTreeNode) nodo.getChildAt(pos), cadena, pos);
+                cantidadHijos--;
+                pos++;
+            }
+        } else {
+            cadena += nodo.getUserObject() + "-";
+        }
+        return cadena;
+    }
+
 }
