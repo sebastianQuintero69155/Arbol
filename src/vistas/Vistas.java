@@ -54,6 +54,7 @@ public class Vistas extends javax.swing.JFrame {
         Tree = new javax.swing.JTree();
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
+        btnMover = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jGuardar = new javax.swing.JMenuItem();
@@ -68,6 +69,11 @@ public class Vistas extends javax.swing.JFrame {
             }
         });
 
+        Tree.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                TreeMouseClicked(evt);
+            }
+        });
         Tree.addTreeSelectionListener(new javax.swing.event.TreeSelectionListener() {
             public void valueChanged(javax.swing.event.TreeSelectionEvent evt) {
                 TreeValueChanged(evt);
@@ -86,6 +92,13 @@ public class Vistas extends javax.swing.JFrame {
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);
+            }
+        });
+
+        btnMover.setText("Mover");
+        btnMover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMoverActionPerformed(evt);
             }
         });
 
@@ -122,7 +135,8 @@ public class Vistas extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCrear, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEditar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE))
+                    .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 89, Short.MAX_VALUE)
+                    .addComponent(btnMover, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(30, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -135,7 +149,9 @@ public class Vistas extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnEditar)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEliminar))
+                        .addComponent(btnEliminar)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnMover))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -162,14 +178,17 @@ public class Vistas extends javax.swing.JFrame {
 
     private void TreeValueChanged(javax.swing.event.TreeSelectionEvent evt) {//GEN-FIRST:event_TreeValueChanged
         // TODO add your handling code here:
-        btnEditar.setVisible(true);
-        btnEliminar.setVisible(true);
-        this.root = Tree.getSelectionPath().getLastPathComponent();
-
-        if (String.valueOf(root).equals("C:")) {
-            btnEditar.setVisible(false);
-            btnEliminar.setVisible(false);
-        }
+//        btnEditar.setVisible(true);
+//        btnEliminar.setVisible(true);
+//        btnMover.setVisible(true);
+//        this.root = Tree.getSelectionPath().getLastPathComponent();
+//
+//        if (String.valueOf(root).equals("C:")) {
+//            btnEditar.setVisible(false);
+//            btnEliminar.setVisible(false);
+//            btnMover.setVisible(false);
+//            
+//        }
 
     }//GEN-LAST:event_TreeValueChanged
 
@@ -205,13 +224,37 @@ public class Vistas extends javax.swing.JFrame {
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
-           try {
-               Tree.setModel(control.leerGraph());
+        try {
+            Tree.setModel(control.leerGraph());
         } catch (IndexOutOfBoundsException e) {
             JOptionPane.showMessageDialog(this, "Seleccione un archivo");
         }
 
     }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void btnMoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoverActionPerformed
+        // TODO add your handling code here:
+        String padre = JOptionPane.showInputDialog("Ingrese el nombre del Padre");
+        control.mover(String.valueOf(this.root), padre);
+        this.root = null;
+
+    }//GEN-LAST:event_btnMoverActionPerformed
+
+    private void TreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TreeMouseClicked
+        // TODO add your handling code here:
+        btnEditar.setVisible(true);
+        btnEliminar.setVisible(true);
+        btnMover.setVisible(true);
+        this.root = Tree.getSelectionPath().getLastPathComponent();
+
+        if (String.valueOf(root).equals("C:")) {
+            btnEditar.setVisible(false);
+            btnEliminar.setVisible(false);
+            btnMover.setVisible(false);
+
+        }
+
+    }//GEN-LAST:event_TreeMouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -251,6 +294,7 @@ public class Vistas extends javax.swing.JFrame {
     private javax.swing.JButton btnCrear;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnMover;
     private javax.swing.JMenuItem jGuardar;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;

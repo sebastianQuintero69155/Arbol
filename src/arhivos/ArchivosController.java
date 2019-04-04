@@ -95,6 +95,15 @@ public class ArchivosController {
         this.arbol.nodeChanged(oldNod);
 
     }
+    
+    public void mover(String archivo, String padre){
+        DefaultMutableTreeNode archivoOld = dictionary.get(archivo);
+        DefaultMutableTreeNode archivoPadre = dictionary.get(padre);
+        dictionary.remove(archivo);
+        arbol.removeNodeFromParent(archivoOld);
+        dictionary.put(String.valueOf(archivoOld.getUserObject()) , archivoOld);
+        arbol.insertNodeInto(archivoOld, archivoPadre, archivoPadre.getChildCount());
+    }
 
     public void guardar() {
         String cadena = "";
