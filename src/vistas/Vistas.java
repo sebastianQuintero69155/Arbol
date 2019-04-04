@@ -234,10 +234,14 @@ public class Vistas extends javax.swing.JFrame {
 
     private void btnMoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoverActionPerformed
         // TODO add your handling code here:
-        String padre = JOptionPane.showInputDialog("Ingrese el nombre del Padre");
-        control.mover(String.valueOf(this.root), padre);
+        for (int i = 0; i < 2; i++) {
+            String padre = JOptionPane.showInputDialog("Ingrese el nombre del Padre");
+            if (padre != null && padre.length() > 0) {
+                control.mover(String.valueOf(this.root), padre);
+                break;
+            }
+        }
         this.root = null;
-
     }//GEN-LAST:event_btnMoverActionPerformed
 
     private void TreeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TreeMouseClicked
