@@ -5,8 +5,12 @@
  */
 package arhivos;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
+import java.util.ArrayList;
+import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Set;
 import javax.swing.JFileChooser;
@@ -72,7 +76,7 @@ public class ArchivosController {
             }
         }
     }
-    
+
     public void eliminarNodo(String nodo, DefaultMutableTreeNode eliminar) {
 
         this.nodoHijo = new DefaultMutableTreeNode(nodo);
@@ -95,7 +99,7 @@ public class ArchivosController {
 
     public void guardar() {
         String cadena = "";
-        cadena = contar(dictionary.get("C:"), cadena, 0);
+        cadena = concatenar(dictionary.get("C:"), cadena, 0);
         System.out.println(cadena);
 
         try {
@@ -111,21 +115,62 @@ public class ArchivosController {
         }
     }
 
-    public String contar(DefaultMutableTreeNode nodo, String cadena, int pos) {
+    public String concatenar(DefaultMutableTreeNode nodo, String cadena, int pos) {
         pos = 0;
         if (nodo.getChildCount() > 0) {
             int cantidadHijos = nodo.getChildCount();
             cadena += nodo.getUserObject() + ";";
+            for (int i = 0; i < cantidadHijos; i++) {
+                cadena += nodo.getChildAt(i).toString() + "#";
+            }
+            cadena += "-";
             while (cantidadHijos > 0) {
 
-                cadena = contar((DefaultMutableTreeNode) nodo.getChildAt(pos), cadena, pos);
+                cadena = concatenar((DefaultMutableTreeNode) nodo.getChildAt(pos), cadena, pos);
                 cantidadHijos--;
                 pos++;
             }
-        } else {
-            cadena += nodo.getUserObject() + "-";
         }
+//        else {
+//            cadena += nodo.getUserObject() + "-";
+//        }
         return cadena;
+    }
+
+    public DefaultTreeModel leerGraph() {
+       // DefaultMutableTreeNode graph = new DefaultMutableTreeNode();
+        try {
+            JFileChooser mFile = new JFileChooser();
+            mFile.showOpenDialog(null);
+            //abrimos el archivo seleccionado
+            File archGrahp = mFile.getSelectedFile();
+            BufferedReader read = new BufferedReader(new FileReader(mFile.getSelectedFile()));
+            String bufRead = read.readLine();
+
+           if (bufRead != null) {
+               llenarGraph(bufRead);
+            }
+            read.close();
+        } catch (Exception err) {
+
+        }
+        return this.arbol;
+    }
+
+    private void llenarGraph(String dato) {
+
+        String[] padre = dato.split("-");
+        String[] list;
+        if (padre != null) {
+            for (int i = 0; i < padre.length; i++) {
+                String[] hijos = padre[i].split(";");
+                list= hijos[1].split("#");
+                for (int j = 0; j<list.length; j++){
+                    insertarNodo(hijos[0], list[j]);
+                }
+            }
+        }
+
     }
 
 }

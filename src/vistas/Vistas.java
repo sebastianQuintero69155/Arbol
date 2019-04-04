@@ -57,6 +57,7 @@ public class Vistas extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jGuardar = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,6 +98,14 @@ public class Vistas extends javax.swing.JFrame {
             }
         });
         jMenu1.add(jGuardar);
+
+        jMenuItem1.setText("Cargar");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
 
         menuBar.add(jMenu1);
 
@@ -194,6 +203,16 @@ public class Vistas extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+           try {
+               Tree.setModel(control.leerGraph());
+        } catch (IndexOutOfBoundsException e) {
+            JOptionPane.showMessageDialog(this, "Seleccione un archivo");
+        }
+
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -234,6 +253,7 @@ public class Vistas extends javax.swing.JFrame {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JMenuItem jGuardar;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JMenuBar menuBar;
