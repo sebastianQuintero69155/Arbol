@@ -87,13 +87,12 @@ public class ArchivosController {
 
     }
 
-    public void modificar(String old, DefaultMutableTreeNode newN, String newNo) {
-        DefaultMutableTreeNode oldNode = dictionary.get(old);
-        DefaultMutableTreeNode newNode = new DefaultMutableTreeNode(newNo);
-        dictionary.remove(old, oldNode);
+    public void modificar(String old, DefaultMutableTreeNode oldNod, String newNo) {
+        DefaultMutableTreeNode newNode = oldNod;
+        dictionary.remove(old);
         dictionary.put(newNo, newNode);
-        oldNode.setUserObject(newNo);
-        this.arbol.nodeChanged(oldNode);
+        oldNod.setUserObject(newNo);
+        this.arbol.nodeChanged(oldNod);
 
     }
 
@@ -138,7 +137,7 @@ public class ArchivosController {
     }
 
     public DefaultTreeModel leerGraph() {
-       // DefaultMutableTreeNode graph = new DefaultMutableTreeNode();
+        // DefaultMutableTreeNode graph = new DefaultMutableTreeNode();
         try {
             JFileChooser mFile = new JFileChooser();
             mFile.showOpenDialog(null);
@@ -147,8 +146,8 @@ public class ArchivosController {
             BufferedReader read = new BufferedReader(new FileReader(mFile.getSelectedFile()));
             String bufRead = read.readLine();
 
-           if (bufRead != null) {
-               llenarGraph(bufRead);
+            if (bufRead != null) {
+                llenarGraph(bufRead);
             }
             read.close();
         } catch (Exception err) {
@@ -164,8 +163,8 @@ public class ArchivosController {
         if (padre != null) {
             for (int i = 0; i < padre.length; i++) {
                 String[] hijos = padre[i].split(";");
-                list= hijos[1].split("#");
-                for (int j = 0; j<list.length; j++){
+                list = hijos[1].split("#");
+                for (int j = 0; j < list.length; j++) {
                     insertarNodo(hijos[0], list[j]);
                 }
             }
