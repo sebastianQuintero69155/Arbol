@@ -234,7 +234,7 @@ public class Vistas extends javax.swing.JFrame {
 
     private void btnMoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMoverActionPerformed
         // TODO add your handling code here:
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 1; i++) {
             String padre = JOptionPane.showInputDialog("Ingrese el nombre del Padre");
             if (padre != null && padre.length() > 0) {
                 control.mover(String.valueOf(this.root), padre);
