@@ -23,6 +23,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeNode;
+import static jdk.nashorn.internal.objects.NativeArray.reverse;
 
 /**
  *
@@ -95,13 +96,13 @@ public class ArchivosController {
         this.arbol.nodeChanged(oldNod);
 
     }
-    
-    public void mover(String archivo, String padre){
+
+    public void mover(String archivo, String padre) {
         DefaultMutableTreeNode archivoOld = dictionary.get(archivo);
         DefaultMutableTreeNode archivoPadre = dictionary.get(padre);
         dictionary.remove(archivo);
         arbol.removeNodeFromParent(archivoOld);
-        dictionary.put(String.valueOf(archivoOld.getUserObject()) , archivoOld);
+        dictionary.put(String.valueOf(archivoOld.getUserObject()), archivoOld);
         arbol.insertNodeInto(archivoOld, archivoPadre, archivoPadre.getChildCount());
     }
 
@@ -181,4 +182,40 @@ public class ArchivosController {
 
     }
 
+    public String mostrarRuta(String nameArchivo) {
+        String cadena = "";
+        String cadenaInvertida = "";
+        String padre = "";
+        DefaultMutableTreeNode archivo = dictionary.get(nameArchivo);
+        padre = invertirRuta(String.valueOf(archivo.getUserObject()));
+        cadena = padre;
+        cadena = encontrarRuta(nameArchivo, cadena);
+        cadenaInvertida = invertirRuta(cadena);
+        System.out.println(cadenaInvertida);
+        return cadenaInvertida;
+    }
+
+    public String encontrarRuta(String nameArchivo, String cadena) {
+        DefaultMutableTreeNode archivo = dictionary.get(nameArchivo);
+        String padre = "";
+        if (archivo.getParent() != null) {
+
+            DefaultMutableTreeNode nodoPadre = (DefaultMutableTreeNode) archivo.getParent();
+            String namePadre = String.valueOf(nodoPadre.getUserObject());
+            padre = invertirRuta(String.valueOf(nodoPadre.getUserObject()));
+            cadena += "/" + padre;
+            cadena = encontrarRuta(namePadre, cadena);
+            return cadena;
+
+        }
+        return cadena;
+    }
+
+    public String invertirRuta(String cadena) {
+        String cadenaInvertida = "";
+        for (int x = cadena.length() - 1; x >= 0; x--) {
+            cadenaInvertida += cadena.charAt(x);
+        }
+        return cadenaInvertida;
+    }
 }
